@@ -7,7 +7,7 @@ DATABASE_URL = "postgresql://postgres:Mani12345@db:5432/fraudshield"
 engine = create_engine(DATABASE_URL)
 
 def force_create_admin():
-    # நேரடி SQL குயரி மூலம் அட்மினை உருவாக்குதல்
+    
     sql = """
     INSERT INTO users (full_name, email, hashed_password, role, is_active)
     VALUES ('System Admin', 'admin@fraudshield.com', 'admin123', 'admin', true)

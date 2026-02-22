@@ -13,19 +13,19 @@ from passlib.context import CryptContext
 # --- 2. Database & Models Imports ---
 from .core.database import engine, get_db, SessionLocal
 from .models import transaction as transaction_models
-from .models.user import User # 👈 திருத்தம் 1: User-ஐ நேரடியாக இம்போர்ட் செய்துள்ளேன்
+from .models.user import User # 
 from .models import user as user_models
 
 from .services.fraud_detector import FraudDetector, calculate_final_risk
 from .schemas.transaction_schema import TransactionCreate
 
-# பாஸ்வேர்டு சரிபார்க்கும் மெக்கானிசம்
+
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
-# 🔒 பாதுகாப்பு டோக்கனைப் பெறுவதற்கான வழிமுறை
+
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-# Database tables உருவாக்கம்
+
 transaction_models.Base.metadata.create_all(bind=engine)
 user_models.Base.metadata.create_all(bind=engine)
 
@@ -34,7 +34,7 @@ app = FastAPI(title="FraudShield AI Engine")
 # --- 3. CORS Middleware ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # 👈 திருத்தம் 2: டெஸ்டிங்கிற்காக அனைத்து ஆர்ஜின்களையும் அனுமதிப்போம்
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -69,11 +69,11 @@ manager = ConnectionManager()
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
     
-    # 👈 திருத்தம் 3: இண்டென்டேஷன் மற்றும் பிளைன் டெக்ஸ்ட் செக்
+    
     if not user or form_data.password != user.hashed_password:
         raise HTTPException(status_code=401, detail="Incorrect email or password")
 
-    # 3. செக்யூரிட்டி டோக்கன் உருவாக்குதல்
+    
     access_token = create_access_token(data={"sub": user.email, "role": user.role})
     
     return {
@@ -119,12 +119,12 @@ async def websocket_endpoint(websocket: WebSocket):
 async def process_transaction(
     data: TransactionCreate, 
     db: Session = Depends(get_db),
-    token: str = Depends(oauth2_scheme) # 👈 இங்கிருந்து பாதுகாப்பு ஆரம்பமாகிறது
+    token: str = Depends(oauth2_scheme) 
 ):
-    # ML Score கணித்தல்
+    
     ml_score = float(detector.predict_anomaly_score(data.amount, 0.5))
 
-    # Risk & Status கணக்கிடுதல்
+    
     final_risk, status, reasons = calculate_final_risk(
         data.amount, 
         data.location, 

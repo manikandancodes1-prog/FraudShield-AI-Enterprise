@@ -16,7 +16,7 @@ class Transaction(Base):
     fraud_probability = Column(Float)
     status = Column(String)
     
-    # புதிய Column: மோசடிக்கான காரணங்களைச் சேமிக்க
+    
     reasons = Column(String, nullable=True) 
     
     created_at = Column(TIMESTAMP, server_default=func.now())

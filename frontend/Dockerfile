@@ -7,5 +7,5 @@ RUN npm install
 
 COPY . .
 
-# Vite டெவலப்மெண்ட் சர்வர்
+
 CMD ["npm", "run", "dev", "--", "--host"]

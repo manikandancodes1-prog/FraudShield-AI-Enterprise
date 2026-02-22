@@ -8,10 +8,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 
-// 1. Login பக்கத்தை இம்போர்ட் செய்யவும் (இது உங்கள் pages/Login.jsx-ல் இருப்பதாகக் கொள்கிறேன்)
+
 import Login from './pages/Login'; 
 
-// --- 🛑 Dashboard Component (உங்கள் பழைய App கோட் இங்கே) ---
+
 function Dashboard({ onLogout }) {
   const [transactions, setTransactions] = useState([]);
   const [stats, setStats] = useState({ total: 0, highRisk: 0, approved: 0 });
@@ -144,23 +144,23 @@ function Dashboard({ onLogout }) {
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
-  // லாக் அவுட் செய்ய
+  
   const handleLogout = () => {
     localStorage.removeItem('token');
     setToken(null);
     toast.info("Logged out successfully");
   };
 
-  // டோக்கன் இல்லையென்றால் லாகின் பக்கத்தைக் காட்டு
+  
   if (!token) {
     return <Login setToken={setToken} />;
   }
 
-  // டோக்கன் இருந்தால் டேஷ்போர்டைக் காட்டு
+  
   return <Dashboard onLogout={handleLogout} />;
 }
 
-// Stats Card - ஏற்கனவே உள்ளதை அப்படியே வைக்கவும்
+
 function StatCard({ title, value, icon, color }) {
   const themes = {
     indigo: { border: 'group-hover:border-indigo-500/50', iconBg: 'text-indigo-500 bg-indigo-500/10', gradient: 'from-indigo-500/10 to-transparent' },

@@ -8,5 +8,5 @@ class User(Base):
     full_name = Column(String)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
-    role = Column(String, default="viewer") # admin அல்லது viewer
+    role = Column(String, default="viewer") 
     is_active = Column(Boolean, default=True)
